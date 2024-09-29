@@ -1,0 +1,23 @@
+{
+  "name": "key-detection-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev-backend\" \"npm run dev-frontend\"",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "dev-frontend": "next dev --port 3000", 
+    "dev-backend": "cd ../backend && flask run --port 5000"
+  },
+  "dependencies": {
+    "concurrently": "^9.0.1",
+    "next": "14.2.13",
+    "react": "^18",
+    "react-dom": "^18"
+  },
+  "devDependencies": {
+    "eslint": "^8",
+    "eslint-config-next": "14.2.13"
+  }
+}
