@@ -6,10 +6,8 @@ WORKDIR /app
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    build-essential \
     ffmpeg \
     libsndfile1 \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip to the latest version
