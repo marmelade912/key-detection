@@ -100,3 +100,15 @@ Once both the backend and frontend are running, you can:
   "alternative_key": "A Minor",
   "alternative_confidence": 0.92
 }
+
+## Run with Docker
+
+The backend ships with a Dockerfile (python:3.9-slim). Build and run it with your Spotify credentials in a local `.env` file (never committed):
+
+```bash
+cd key-detection-backend
+docker build -t key-detection-api .
+docker run --rm -p 5000:5000 --env-file .env key-detection-api
+```
+
+The API listens on port 5000; the Next.js front end in `key-detection-frontend` points at it.
