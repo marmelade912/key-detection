@@ -25,7 +25,6 @@ CORS(app, origins=os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(',
 SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 
-# Debugging print to verify credentials
 if not SPOTIPY_CLIENT_ID or not SPOTIPY_CLIENT_SECRET:
     raise RuntimeError("Set SPOTIPY_CLIENT_ID and SPOTIPY_CLIENT_SECRET in .env")
 
@@ -59,7 +58,7 @@ def get_spotify_official_key(spotify_url: str):
         else:
             return None
     except Exception as e:
-        print(f"Error fetching key from Spotify: {e}")  # Debugging print
+        logging.warning("Error fetching key from Spotify: %s", e)
         return None
 
 def is_meaningful_filename(filename: str):
@@ -96,7 +95,7 @@ def upload_audio():
         return jsonify(key_info)
 
     except Exception as e:
-        print(traceback.format_exc())
+        logging.exception("Request failed")
         return jsonify({"error": str(e)}), 500
 
 def strict_search_spotify_by_filename(filename: str):
@@ -135,7 +134,7 @@ def strict_search_spotify_by_filename(filename: str):
         else:
             return None  # No results found, proceed with key detection algorithm
     except Exception as e:
-        print(f"Error searching for {filename} on Spotify: {e}")
+        logging.warning("Error searching for %s on Spotify: %s", filename, e)
         return None
 
 
@@ -231,7 +230,7 @@ def process_spotify_link():
             return jsonify({"error": "Could not retrieve key from Spotify"}), 400
 
     except Exception as e:
-        print(traceback.format_exc())
+        logging.exception("Request failed")
         return jsonify({"error": str(e)}), 500
 
 
