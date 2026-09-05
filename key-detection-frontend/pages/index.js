@@ -14,7 +14,7 @@ export default function Home() {
       return;
     }
 
-    const apiUrl = 'https://6985-76-145-177-181.ngrok-free.app'; // Point to your backend port
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 
     if (spotifyLink) {
       // Process Spotify link

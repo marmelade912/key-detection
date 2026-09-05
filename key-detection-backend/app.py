@@ -19,14 +19,15 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 # Enable CORS for all routes and all domains, explicitly allowing necessary headers and methods
-CORS(app)
+CORS(app, origins=os.getenv('ALLOWED_ORIGINS', 'http://localhost:3000').split(','))
 
 # Spotify credentials (ensure these are in your .env file)
 SPOTIPY_CLIENT_ID = os.getenv('SPOTIPY_CLIENT_ID')
 SPOTIPY_CLIENT_SECRET = os.getenv('SPOTIPY_CLIENT_SECRET')
 
 # Debugging print to verify credentials
-print(f"Client ID: {SPOTIPY_CLIENT_ID}, Client Secret: {SPOTIPY_CLIENT_SECRET}")
+if not SPOTIPY_CLIENT_ID or not SPOTIPY_CLIENT_SECRET:
+    raise RuntimeError("Set SPOTIPY_CLIENT_ID and SPOTIPY_CLIENT_SECRET in .env")
 
 # Initialize Spotify client
 sp = spotipy.Spotify(auth_manager=SpotifyClientCredentials(
@@ -240,4 +241,4 @@ def process_spotify_link():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', '5000')), debug=os.getenv('FLASK_DEBUG') == '1')
