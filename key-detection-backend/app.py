@@ -8,7 +8,7 @@ from tempfile import NamedTemporaryFile
 import traceback
 import numpy as np
 import re
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from dotenv import load_dotenv
 import logging
 
@@ -41,11 +41,9 @@ def get_spotify_official_key(spotify_url: str):
     try:
         # Extract track ID from Spotify URL
         track_id = spotify_url.split("/")[-1].split("?")[0]
-        print(f"Track ID: {track_id}")  # Debugging print
 
         # Fetch the audio features for the track
         features = sp.audio_features(track_id)
-        print(f"Spotify API Response: {features}")  # Debugging print
 
         if features and features[0]:  # Ensure the features are not None or empty
             key = features[0]['key']  # Key as an integer
@@ -59,7 +57,6 @@ def get_spotify_official_key(spotify_url: str):
 
             return f"{musical_key} {scale}"
         else:
-            print("No features found.")  # Debugging print
             return None
     except Exception as e:
         print(f"Error fetching key from Spotify: {e}")  # Debugging print
@@ -72,7 +69,6 @@ def is_meaningful_filename(filename: str):
     return len(words) >= 3  # Ensure there's enough detail (e.g., at least "artist song title")
 
 @app.route('/upload-audio/', methods=['POST', 'OPTIONS'])
-@cross_origin()
 def upload_audio():
     try:
         if 'file' not in request.files:
@@ -207,10 +203,9 @@ def extract_key_from_audio(audio_path: str):
     fragment = Tonal_Fragment(y, sr)
     return fragment.get_key_info()
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 @app.route('/process-spotify-link/', methods=['POST', 'OPTIONS'])
-@cross_origin()
 def process_spotify_link():
     try:
         data = request.get_json()

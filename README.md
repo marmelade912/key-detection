@@ -17,7 +17,6 @@ Ensure you have the following installed:
 
 - **Python 3.8+**
 - **Node.js** (for the frontend)
-- **ngrok** (or your preferred tunneling tool for local development)
 - **Spotify API Credentials**: You need a `SPOTIPY_CLIENT_ID` and `SPOTIPY_CLIENT_SECRET` from the Spotify Developer Dashboard.
 
 ### Installation
@@ -68,17 +67,7 @@ Ensure you have the following installed:
     npm run dev
     ```
 
-8. Use **ngrok** or another tunneling service to expose your Flask backend. Example:
-
-    ```bash
-    ngrok http 5000
-    ```
-
-    Update the `apiUrl` in your frontend to match the ngrok URL.
-
-### Usage
-
-Once both the backend and frontend are running, you can:
+8. Point the front end at the API by setting `NEXT_PUBLIC_API_URL` (defaults to `http://localhost:5000`).
 
 1. Open the web app in your browser.
 2. Either paste a Spotify link into the input box or upload an audio file.
