@@ -101,3 +101,13 @@ docker run --rm -p 5000:5000 --env-file .env key-detection-api
 ```
 
 The API listens on port 5000; the Next.js front end in `key-detection-frontend` points at it.
+
+## Tests
+
+The key detector is covered by pytest with synthesized triads (C major, A minor, G major):
+
+```bash
+cd key-detection-backend
+pip install -r requirements.txt pytest
+python -m pytest -q tests
+```
